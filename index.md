@@ -12,6 +12,7 @@ Using a microcontroller, this program is an HVAC control system that senses sens
 ```markdown
 
 /* Snippet of the main function */
+
 void *mainThread(void *arg0)
 {
     /* Call driver init functions */
