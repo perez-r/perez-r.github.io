@@ -10,6 +10,8 @@ Using a microcontroller, this program is an HVAC control system that senses sens
 
 
 ```markdown
+
+/* Snippet of the main function */
 void *mainThread(void *arg0)
 {
     /* Call driver init functions */
@@ -17,9 +19,6 @@ void *mainThread(void *arg0)
 
     /* Configure the LED and button pins */
     GPIO_setConfig(CONFIG_GPIO_LED_0, GPIO_CFG_OUT_STD | GPIO_CFG_OUT_LOW);
-
-
-
     GPIO_setConfig(CONFIG_GPIO_BUTTON_0, GPIO_CFG_IN_PU | GPIO_CFG_IN_INT_FALLING);
 
     /* Install Button callback */
