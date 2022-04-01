@@ -1,11 +1,11 @@
-## Ruben Perez
-# _Contact_
+# Ruben Perez
+## _Contact_
 
 e-mail: ruben.perez@snhu.edu 
 
-## Portfolio Artifact One
+# Portfolio Artifact One
 
-# HVAC State Machine
+## HVAC State Machine
 Using a microcontroller, this program is an HVAC control system that senses senses temperature and enables or disables heating or cooling system depending on the reading. Uses GPIO inputs to control temperature settings and utilizes UART and I2C for communications communications. 
 
 
@@ -85,13 +85,3 @@ void *mainThread(void *arg0)
     return (NULL);
 }
 ```
-
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/perez-r/perez-r.github.io/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
