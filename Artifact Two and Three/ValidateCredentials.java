@@ -1,5 +1,5 @@
 /*
- * FILENAME: ValidateCredentials.java
+ * FILENAME: 	ValidateCredentials.java
  *
  * DESCRIPTION: 
  * 		Credential validation class used by main 
