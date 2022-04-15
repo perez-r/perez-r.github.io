@@ -1,4 +1,21 @@
 /*
+ *  FILENAME:       gpiointerrupt.c 
+ *  
+ *  DESCRIPTION: 
+ *      HVAC Control System called by the main function.
+ *
+ *      This program is a time-based state machine with
+ *      a full cycle occurring every one minute.
+ *      Events occur at each 0.5 second mark and 1.0
+ *      second mark.
+ *
+ *  AUTHOR INFO: 
+ *
+ *      NAME: RUBEN PEREZ   DATE: 03/21/2022
+ *
+ */
+
+/*
  * Copyright (c) 2015-2020, Texas Instruments Incorporated
  * All rights reserved.
  *
@@ -30,22 +47,6 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-/*
- *  FILENAME:       gpiointerrupt.c 
- *  
- *  DESCRIPTION: 
- *      HVAC Control System called by the main function.
- *
- *      This program is a time-based state machine with
- *      a full cycle occurring every one minute.
- *      Events occur at each 0.5 second mark and 1.0
- *      second mark.
- *
- *  AUTHOR INFO: 
- *
- *      NAME: RUBEN PEREZ   DATE: 03/21/2022
- *
- */
 #include <stdint.h>
 #include <stddef.h>
 #include <ti/drivers/GPIO.h>
