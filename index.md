@@ -11,7 +11,7 @@ The two artifacts that will follow are two perfect examples of my skills acquire
 # Portfolio Artifact One
 
 ### [HVAC State Machine](https://github.com/perez-r/perez-r.github.io/tree/main/Artifact%20One)
-<img src="https://github.com/perez-r/perez-r.github.io/blob/main/Artifact%20One/TI-CC3220S-LAUNCHPADXL.jpeg" alt="Texas Instruments CC3220S LaunchPadXL">
+<img src="Artifact%20One/TI-CC3220S-LAUNCHPADXL.jpeg" alt="Texas Instruments CC3220S LaunchPadXL">
 
 Using a microcontroller, this program is an HVAC control system that senses senses temperature and enables or disables heating or cooling system depending on the reading. Uses GPIO inputs to control temperature settings and utilizes UART and I2C for communications communications. 
 
