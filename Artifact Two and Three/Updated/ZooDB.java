@@ -1,5 +1,5 @@
 /*
- * FILENAME: 	ZooDB.java
+ * FILENAME: ZooDB.java
  *
  * DESCRIPTION: 
  * 		Provides the program with 
@@ -22,8 +22,6 @@
  * 		ORGANIZATION: 	Southern New Hampshire University
  * 		COURSE: IT-145 Foundations in Application Development
  * 		
- * 		INSTRUCTOR: Joe Parker
- * 		
  * 		STUDENT: 	Ruben Perez		START DATE: 		04/01/2022
  * 
  */
@@ -31,6 +29,9 @@ package com.snhu;
 
 //MongoDB Driver 
 import static com.mongodb.client.model.Filters.eq;
+
+
+
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.json.JsonReader;
@@ -46,10 +47,13 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
 
+
 public class ZooDB {
 	MongoClient mongoClient;
 	MongoDatabase database;
 	static MongoCollection<Document> collection;
+
+	
 	String key;
 	
 	// Default Constructor 
@@ -142,7 +146,6 @@ public class ZooDB {
 			jsonReader.readName("level");
 			level = jsonReader.readString();
 			
-			System.out.println(level);
 		}		
 		return level;
 	}
@@ -203,10 +206,7 @@ public class ZooDB {
 		UpdateOptions options = new UpdateOptions().upsert(true);
 		
 		try {
-			UpdateResult result = collection.updateOne(query, updates, options);
-			
-			System.out.println("Modified document count: " + result.getModifiedCount());
-			
+			UpdateResult result = collection.updateOne(query, updates, options);			
 			return result.wasAcknowledged();
 		} catch (MongoException me) {
 			System.err.println("Unable to update due to an error: " + me);
@@ -227,7 +227,6 @@ public class ZooDB {
 		
 		try {
 			DeleteResult result = collection.deleteOne(query);
-			System.out.println("Deleted document count: " + result.getDeletedCount());
 			return result.wasAcknowledged();
 		} catch (MongoException me) {
 			return false;

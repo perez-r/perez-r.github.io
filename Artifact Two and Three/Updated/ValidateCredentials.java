@@ -1,5 +1,5 @@
 /*
- * FILENAME: 	ValidateCredentials.java
+ * FILENAME: ValidateCredentials.java
  *
  * DESCRIPTION: 
  * 		Credential validation class used by main 
@@ -32,7 +32,7 @@ import java.io.IOException;
 
 public class ValidateCredentials {
 	// Private fields for class objects
-    private boolean isValid;
+
     private String filePath;
 
     private boolean userExists;
@@ -54,7 +54,7 @@ public class ValidateCredentials {
         filePath = "";
 
         // Variable initialization
-        isValid = false;
+
         
         
        /* 
@@ -69,7 +69,7 @@ public class ValidateCredentials {
      * Public method for validating credentials. Implements 
      * Encryption object and readDataFiles method
      */
-    public boolean isCredentialsValid(String username, String password) throws Exception {   	
+    public String isCredentialsValid(String username, String password) throws Exception {   	
     	/*
     	 * ***MODIFIED***
     	 */
@@ -83,12 +83,10 @@ public class ValidateCredentials {
     	 */
     	
     	if (hashed.equals(db.getHash(username))) {
-    		isValid = true;
+    		return db.getLevel(username);
     	}
-    	else {
-    		isValid = false;
-    	}    	
-        return isValid;
+    	
+    	return null; 
     }
 
     /*
@@ -96,8 +94,8 @@ public class ValidateCredentials {
      * users depending on their access level. 
      * 
      */
-    public void readData(String userName) throws IOException {    	    	
-    	String textFileName = db.getLevel(userName);        	
+    public void readData(String level) throws IOException {    	    	
+    	String textFileName = level;        	
         FileAccess fa = new FileAccess(textFileName, filePath);
         
         fa.accessFile();

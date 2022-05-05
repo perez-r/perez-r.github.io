@@ -1,5 +1,5 @@
 /*
- * FILENAME: 	Authentication.java
+ * FILENAME: Authentication.java
  *
  * DESCRIPTION: 
  * 		Main entry point of program. Provides
@@ -23,7 +23,11 @@
  */
 package com.snhu;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+
 
 /**
  *
@@ -31,54 +35,33 @@ import java.util.Scanner;
  */
 public class Authentication {
 	static Scanner scnr = new Scanner(System.in);
+	static String[] roles = new String[]{"zookeeper", "admin", "veterenarian"};
+	static List<String> roleList = new ArrayList<>(Arrays.asList(roles));
+	
+	/*
+	 * MAIN FUNCTION
+	 * 
+	 */
 
     public static void main(String[] args) throws Exception {
-        int selection = 0;
-        boolean input = true;
+    	boolean state = true;
+    	
+        User user = new User(authenticate());
         
-        while (input) {
-        	selectionPrompt();
-            selection = scnr.nextInt();
-        	switch (selection) {
-            case 1: 
-            	userAccess();
-            	break;
-            case 2:
-            	// add user
-            	if (addUser()) {
-            		System.out.println("Success!");
-            	}
-            	else {
-            		System.out.println("Please try again later");
-            	}
-            	break;
-            case 3: 
-            	// update user info
-            	if (updateUser()) {
-            		System.out.println("Success!");
-            	}
-            	else {
-            		System.out.println("Please try again later");
-            	}
-            	break;
-            case 4: 
-            	// delete user info
-            	if (deleteUser()) {
-            		System.out.println("Success!");
-            	}
-            	else {
-            		System.out.println("Please try again later");
-            	}
-            	break;
-            case 5: 
-            	input = false;;
-            default: 
-            	break;
-            }
+        if (roleList.contains(user.getRole())) {	
+        	while (state) {
+        		state = userCases(user);
+        	}
         }
-        
         System.out.println("Terminating Program.");
     }
+    
+    /*
+     * END MAIN FUNCTION
+     * 
+     * 
+     */
+    
     
     /*
      * Delete User
@@ -88,18 +71,11 @@ public class Authentication {
      * information for which user to be deleted. 
      * 
      */
-    private static boolean deleteUser() throws Exception {
+    private static boolean deleteUser(User user) throws Exception {
     	boolean success = false;
-		boolean authenticated = false;
-		
 		ValidateCredentials auth = new ValidateCredentials();
 		
-		System.out.println("Please login first");
-		
-		authenticated = authenticate();	
-		
-		if (authenticated) {
-			System.out.println("Login successful");
+		if (user.getRole() == "admin") {
 			String username;
 			System.out.println("Please enter the username to be deleted: ");	
 			username = scnr.nextLine();		
@@ -125,39 +101,41 @@ public class Authentication {
      * to modify the data. 
      * 
      */
-    private static boolean updateUser() throws Exception {
+    private static boolean updateUser(User user) throws Exception {
+    	String username;
+		String password;
+		String role;
     	boolean success = false;
-		boolean authenticated = false;
-		
+    	ZooDB db = new ZooDB();		
 		ValidateCredentials auth = new ValidateCredentials();
 		
-		System.out.println("Please login first");
-		
-		authenticated = authenticate();	
-		
-		if (authenticated) {
-			System.out.println("Login successful");
-			String username;
-			String password;
-			String level;
-
-			System.out.println("Please enter the username to be updated: ");	
-			username = scnr.nextLine();		
-						
-			ZooDB db = new ZooDB();
+		switch (user.getRole()) {
+			case "admin":
+				scnr.nextLine();
+				System.out.println("Please enter the username to be updated: ");	
+				username = scnr.nextLine();		
 			
-			if (auth.userExists(username)) {
+				if (auth.userExists(username)) {
+					System.out.println("Please enter current or updated password: ");			
+					password = scnr.nextLine();
+				
+					System.out.println("Please specify the user type: ");
+					role = scnr.nextLine();
+				
+					success = db.updateUser(username, password, role);
+				} 
+				break;
+			case "zookeeper":
+			case "veterinarian":
+				scnr.nextLine();
 				System.out.println("Please enter current or updated password: ");			
 				password = scnr.nextLine();
-				
-				System.out.println("Please specify the user type: ");
-				level = scnr.nextLine();
-				
-				success = db.updateUser(username, password, level);
-			}
-			else {
+			
+				success = db.updateUser(user.getUsername(), password, user.getRole());
+				break;
+			default:
 				System.out.println("Error Please try again");
-			}
+				break;			
 		}
 		return success;
 	}
@@ -171,17 +149,12 @@ public class Authentication {
      * if a user exists by that username. 
      * 
      */
-	private static boolean addUser() throws Exception {
+	private static boolean addUser(User user) throws Exception {
 		boolean success = false;
-		boolean authenticated = false;
 		
-		ValidateCredentials auth = new ValidateCredentials();
+		ValidateCredentials auth = new ValidateCredentials();	
 		
-		System.out.println("Please login first");
-		
-		authenticated = authenticate();		
-		
-		if (authenticated) {
+		if (user.getRole() == "admin") {
 			System.out.println("Login successful");
 			String username;
 			String password;
@@ -215,15 +188,14 @@ public class Authentication {
 	 * whenever they want to perform any type 
 	 * of CRUD operations.
 	 */
-	private static boolean authenticate() throws Exception {
-		// TODO Auto-generated method stub
+	private static User authenticate() throws Exception {
 		int loginAttempt = 3;
 		String username = null;
 		String password;
-		boolean authentication = false;
 		char userOption = '0';
 		
 		ValidateCredentials auth = new ValidateCredentials();
+		User user = new User();
 		
 		//Login Attempts Loop
     	while (loginAttempt > 0) {
@@ -243,16 +215,22 @@ public class Authentication {
             }
             
             //checks if username exists
-            else if (auth.userExists(username)) {
+            else if (username.length() > 1 && username.length() <= 32) {
                 System.out.println("Enter a password: ");
                 password = scnr.nextLine();
-                if (auth.isCredentialsValid(username, password)) {
-                	authentication = true;
-                	break;
-                }
-                else {
-                	authentication = false;
-                	break;
+                
+                if (auth.userExists(username)) {
+                	if (auth.isCredentialsValid(username, password) != null) {
+                		user.setUsername(username);
+                    	user.setRole(auth.isCredentialsValid(username, password));
+                    	break;
+                    } else {
+                    	loginAttempt--;
+                    	System.out.println("Authentication Failed. Login attempts left: " + loginAttempt);
+                    }
+                } else {
+                	loginAttempt--;
+                	System.out.println("Authentication Failed. Login attempts left: " + loginAttempt);
                 }
             }
             
@@ -273,7 +251,7 @@ public class Authentication {
             }
 
     	}
-		return authentication;
+		return user;
 	}
 
 	/*
@@ -291,6 +269,55 @@ public class Authentication {
     	System.out.println("    4. Delete user");
     	System.out.println("    5. Quit");
     }
+	
+	public static boolean userCases(User user) throws FileNotFoundException, Exception {
+        int selection = 0;
+        boolean state = true;
+        
+        selectionPrompt();
+        selection = scnr.nextInt();
+    	
+        switch (selection) {
+        case 1: 
+        	userAccess(user.getRole());
+        	break;
+        case 2:
+        	// add user
+        	if (addUser(user)) {
+        		System.out.println("Success!");
+        	}
+        	else {
+        		unauthorizedAction();
+        	}
+        	break;
+        case 3:
+        	if (updateUser(user)) {
+        		System.out.println("Success!");
+        	} else {
+        		unauthorizedAction();
+        	}
+        	break;
+        case 4: 
+        	// delete user info
+        	if (deleteUser(user)) {
+        		System.out.println("Success!");
+        	}
+        	else {
+        		unauthorizedAction();
+        	}
+        	break;
+        case 5: 
+        	state = false;
+        default: 
+        	break;
+
+        }
+		return state;
+	}
+
+	private static void unauthorizedAction() {
+		System.out.println("User not authorized for this action. Please try again later");
+	}
     
     /*
      * User Access
@@ -301,73 +328,9 @@ public class Authentication {
      * be modified to display a dashboard 
      * for their role.  
      */
-    public static void userAccess() throws FileNotFoundException, Exception {
-    	
-    	int loginAttempt = 3;
-        String username = null;
-        char userOption = '0';
-        String passWord;
+    public static void userAccess(String role) throws FileNotFoundException, Exception {
         ValidateCredentials auth;
-        
-        //Login Attempts Loop
-    	while (loginAttempt > 0) {
-            auth = new ValidateCredentials();
-
-            // username prompt
-            System.out.println("Enter username: ");
-            System.out.println("(To exit enter \"Q\")");
-            username = scnr.nextLine();
-
-            //checks for blank input
-            if (username == "") {
-                System.out.println("Please try again");
-            }
-            
-            //checks if username exists
-            else if (auth.userExists(username)) {
-                System.out.println("Enter a password: ");
-                passWord = scnr.nextLine();
-                
-                //uses isCredentialsValid method within Validate Credentials
-                //to see if credentials are valid
-                if (auth.isCredentialsValid(username, passWord)) {
-                	auth.readData(username);
-                	
-                	//checks for Q to quit again
-                    System.out.println("Enter 'Q' to quit");
-                    username = scnr.nextLine();
-                    if (username.length() == 1) {
-                        userOption = username.charAt(0);
-                        if (userOption == 'Q' || userOption == 'q') {
-                            System.out.println("Logout Successful. Goodbye");
-                            break;
-                        }
-                    }
-                }
-                else {
-                	loginAttempt--;
-                	System.out.println("Authentication Failed. Login attempts left: " + loginAttempt);
-                }
-            }   
-            
-            //checks for username length to check for character input
-            else if (username.length() == 1) {
-                userOption = username.charAt(0);
-                //checks for quit option selection
-                if (userOption == 'Q' || userOption == 'q') {
-                    System.out.println("Goodbye");
-                    loginAttempt = 0;
-                }
-                else {
-                	System.out.println("Invalid input");
-                }
-            }
-            
-            else {
-            	loginAttempt--;
-                System.out.println("Authentication Failed. Login attempts left: " + loginAttempt);
-            }
-        }
-
+        auth = new ValidateCredentials();
+        auth.readData(role);
     }
 }
