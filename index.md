@@ -25,7 +25,7 @@ The course objective I originally intended to meet in this enhancement of this a
 #### D.	Reflect on the process of enhancing and/or modifying the artifact. What did you learn as you were creating it and improving it? What challenges did you face?
 When I first opened this project again, I realized just how much I had forgotten it. Although it was less than a year ago since I created this, I did not need to reference it at all so it’s functionality was a bit confusing for me to understand. This is when I learned how important commenting really is. Although it was my own code, my comments were brief and vague. I had to run through it all little by little before my code review so I could understand what was going on again. In addition to my own code, I also had to re-learn how the drivers are used in this software. Adding detailed but concise comments was where I started before making any changes to the actual code. This was truly the only major challenge I needed to overcome for this enhancement. It took some time to relearn how the program worked and update the comments but without doing so, I would not have been able to make the enhancements I did. The lesson I learned here I must remember when working on the other enhancements I have planned for my ePortfolio and in my future professional career. 
 
-[HVAC State Machine (Original)](https://github.com/perez-r/perez-r.github.io/tree/main/Artifact%20One/Original)
+
 
 # Portfolio Artifact Two & Three
 
@@ -43,7 +43,7 @@ I did meet the course objectives I planned to meet with this enhancement. This a
 #### D. Reflect on the process of enhancing and/or modifying the artifact. What did you learn as you were creating it and improving it? What challenges did you face?
 Although I enjoyed working on this artifact, this was likely the most time consuming artifact I had. Before I could even begin coding, I had to setup and configure the database using MongoDB’s cloud solution. I also had to take the time to learn the MongoDB Java driver, BSON, JSON, and BSON Document objects because they would be used while coding. This proved to be an issue because my earlier difficulties with my previous artifact selection left me with limited amounts of time to actually work and prepare on this artifact. I feel as though there are a lot of improvements and changes, I could make to my artifact to make it work better. I feel as though it’s just in a working state which is a mistake on my part by undertaking such a large task in such a short period. If I had chosen this particular artifact from the beginning, I could have begun work on it much earlier. This is a lesson to me in preparedness and adaptability. I need to remember to get as well-prepared as I can ahead of time. In terms of adaptability, I believe I managed the change well but there is room for improvement. In the real world, there are sudden changes that will need to be adapted to, so I believe that although not my original intention, the experience was beneficial for me. Overall, although challenging, I was successful in my artifact update and will try to make more changes to it for when the time comes to seek employment and demonstrate my abilities through this portfolio to future employers. 
 
-[Zoo Employee System and Database (Original)](https://github.com/perez-r/perez-r.github.io/tree/main/Artifact%20Two%20and%20Three/Original)
+
 
 # Code Review
 
